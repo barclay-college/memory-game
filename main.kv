@@ -1,0 +1,196 @@
+#:kivy 2.0.0
+
+
+<Game_Window>:
+    cols: 2
+    on_reveal_list:
+        root.reveal_verses()
+    MDRectangleFlatButton:
+        text: "Start Game"
+        size_hint: (1, 1)
+        font_size: 50
+        #on_press: root.start_game()
+        on_press:
+            app.root.ids.gamewindowid.start_game()
+
+<VerseTile>:
+
+    MDRectangleFlatButton:
+        id: verse_button
+        text: root.verse_num
+        size_hint: (1, 1)
+        pos_hint: {'x': 0, 'y': 0}
+        opacity: 1
+        on_press:
+            root.reveal()
+            #self.opacity = 0
+            #verse_label.opacity = 1
+
+    MDLabel:
+        id: verse_label
+        text: root.verse_text
+        size_hint: (1, 1)
+        pos_hint: {'x': 0, 'y': 0}
+        theme_text_color: "Primary"
+        valign: "middle"
+        padding: 20, 0
+        opacity: 0
+        revealed: False
+        matched: False
+        #on_opacity:
+        #    app.root.ids.gamewindowid.reveal_list.append(self.text)
+
+
+<ContentNavigationDrawer>:
+
+    ScrollView:
+
+        MDList:
+
+            OneLineListItem:
+                text: "Home"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Home_Window"
+
+            OneLineListItem:
+                text: "Game Screen"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "Game_Window"
+
+            OneLineListItem:
+                text: "Settings"
+
+            OneLineListItem:
+                text: "Quit"
+                on_press:
+                    app.stop()
+
+
+
+Screen:
+
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        elevation: 10
+        title: "Bible Verse Memory Game"
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+
+    NavigationLayout:
+        x: toolbar.height
+        size_hint_y: 1.0 - toolbar.height/root.height
+
+        ScreenManager:
+            id: screen_manager
+
+            Screen:
+                name: "Home_Window"
+
+
+                MDLabel:
+                    text: "Welcome Page"
+                    halign: "center"
+
+            Screen:
+                name: "Game_Window"
+
+                Game_Window:
+                    id: gamewindowid
+
+                #FloatLayout:
+                    #size: screen_manager.width, screen_manager.height
+
+                    #VerseButton:
+                    #    id: button1
+                    #    text: "Verse 1"
+                    #    pos_hint: {'x': 0, 'y': .75}
+                    #    size_hint: .5, .25
+                        #opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button1.opacity = 0
+                        #    label1.opacity = 1
+                        #    label1.revealed = True
+                    #MDRectangleFlatButton:
+                    #    id: button2
+                    #    text: "Verse 2"
+                    #    pos_hint: {'x': .5, 'y': .75}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button2.opacity = 0
+                        #    label2.opacity = 1
+                        #    label2.revealed = True
+                        #    root.reveal_verse()
+                    #MDRectangleFlatButton:
+                    #    id: button3
+                    #    text: "Verse 3"
+                    #    pos_hint: {'x': 0, 'y': .5}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button3.opacity = 0
+                        #    label3.opacity = 1
+                    #MDRectangleFlatButton:
+                    #    id: button4
+                    #    text: "Verse 4"
+                    #    pos_hint: {'x': .5, 'y': .5}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button4.opacity = 0
+                        #    label4.opacity = 1
+                    #MDRectangleFlatButton:
+                    #    id: button5
+                    #    text: "Verse 5"
+                    #    pos_hint: {'x': 0, 'y': .25}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button5.opacity = 0
+                        #    label5.opacity = 1
+                    #MDRectangleFlatButton:
+                    #    id: button6
+                    #    text: "Verse 6"
+                    #    pos_hint: {'x': .5, 'y': .25}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button6.opacity = 0
+                        #    label6.opacity = 1
+                    #MDRectangleFlatButton:
+                    #    id: button7
+                    #    text: "Verse 7"
+                    #    pos_hint: {'x': 0, 'y': 0}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button7.opacity = 0
+                        #    label7.opacity = 1
+                    #MDRectangleFlatButton:
+                    #    id: button8
+                    #    text: "Verse 8"
+                    #    pos_hint: {'x': .5, 'y': 0}
+                    #    size_hint: .5, .25
+                    #    opacity: 1
+                        #revealed: False
+                        #on_press:
+                        #    button8.opacity = 0
+                        #    label8.opacity = 1
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
